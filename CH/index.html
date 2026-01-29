@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>汪昱青 | 量化交易员 · 数据分析师</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Vue 3 -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            void: "#050505",
+            "void-light": "#0a0a0a",
+            "text-primary": "#F0F0F0",
+            "text-secondary": "#a0a0a0",
+            acid: "#CCFF00",
+          },
+          fontFamily: {
+            display: ["Inter", "system-ui", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Inter", system-ui, sans-serif;
+      background: #050505;
+      color: #F0F0F0;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Noise overlay */
+    .noise-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.03;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    /* Soft vignette (lighter than before to reduce GPU load) */
+    .vignette {
+      position: fixed;
+      inset: -20%;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(900px 500px at 18% 12%, rgba(204,255,0,.10), transparent 60%),
+        radial-gradient(700px 500px at 82% 28%, rgba(120,80,255,.10), transparent 60%),
+        radial-gradient(1200px 900px at 50% 60%, rgba(0,0,0,0), rgba(0,0,0,.72) 70%, rgba(0,0,0,.92) 100%);
+      opacity: .85;
+    }
+
+    /* Glassmorphism (performance-friendly defaults) */
+    .glass {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    .glass-strong {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+
+    /* Liquid blobs (keep but mark will-change; pointer-events none) */
+    .liquid-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: 0.35;
+      animation: float 18s infinite ease-in-out;
+      will-change: transform;
+      pointer-events: none;
+      transform: translateZ(0);
+    }
+    @keyframes float {
+      0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+      25% { transform: translate3d(50px, -50px, 0) scale(1.08); }
+      50% { transform: translate3d(-30px, 30px, 0) scale(0.92); }
+      75% { transform: translate3d(40px, 20px, 0) scale(1.05); }
+    }
+
+    /* Marquee */
+    .marquee-track {
+      display: flex;
+      animation: marquee 30s linear infinite;
+      will-change: transform;
+      transform: translateZ(0);
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    @keyframes marquee {
+      0% { transform: translate3d(0,0,0); }
+      100% { transform: translate3d(-50%,0,0); }
+    }
+
+    /* Timeline hover */
+    .timeline-item { transition: all 0.35s ease; }
+    .timeline-item:hover { opacity: 1 !important; }
+    .timeline-container:hover .timeline-item:not(:hover) { opacity: 0.3; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #050505; }
+    ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #CCFF00; }
+
+    /* Text gradient */
+    .text-gradient {
+      background: linear-gradient(135deg, #F0F0F0 0%, #CCFF00 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .glow { box-shadow: 0 0 40px rgba(204, 255, 0, 0.15); }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(60px); }
+
+    /* Bento grid */
+    .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    @media (max-width: 1024px) { .bento-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { .bento-grid { grid-template-columns: 1fr; } }
+
+    /* Smooth hover */
+    a, button { transition: all 0.3s ease; }
+    a:hover { color: #CCFF00; }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .marquee-track { animation: none !important; }
+      .liquid-blob { animation: none !important; }
+      .reveal { opacity: 1 !important; transform: none !important; }
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="vignette"></div>
+  <div class="noise-overlay"></div>
+
+  <div id="app" class="relative z-[1]">
+    <!-- Nav -->
+    <nav class="fixed top-0 left-0 w-full z-50 px-6 py-6 flex justify-between items-center">
+      <a href="#hero" class="text-xl font-bold tracking-tight">
+        <span class="text-acid">Y</span>Q
+      </a>
+
+      <div class="hidden md:flex gap-8">
+        <a v-for="item in navItems" :key="item.id"
+           :href="`#${item.id}`"
+           class="text-sm text-text-secondary hover:text-text-primary">
+          {{ item.label }}
+        </a>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="../" class="glass px-4 py-2 rounded-full text-sm hover:bg-white/10">
+          EN
+        </a>
+        <a :href="`mailto:${profileData.email}`"
+           class="glass px-5 py-2 rounded-full text-sm hover:bg-white/10">
+          联系我
+        </a>
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <div class="liquid-blob w-96 h-96 bg-acid/25 top-20 -left-48"></div>
+      <div class="liquid-blob w-80 h-80 bg-purple-500/25 bottom-20 -right-40" style="animation-delay: -5s;"></div>
+      <div class="liquid-blob w-64 h-64 bg-blue-500/15 top-1/2 left-1/3" style="animation-delay: -10s;"></div>
+
+      <div class="relative z-10 text-center px-6 max-w-6xl mx-auto">
+        <!-- ✅ 单行姓名：汪昱青 -->
+        <h1 class="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-8 opacity-0 hero-title">
+          <span class="text-gradient">{{ profileData.displayName }}</span>
+        </h1>
+
+        <p class="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto opacity-0 hero-sub">
+          {{ profileData.headline }}
+        </p>
+
+        <div class="mt-12 flex gap-4 justify-center opacity-0 hero-cta">
+          <a :href="`mailto:${profileData.email}`"
+             class="bg-acid text-void px-8 py-4 rounded-full font-semibold hover:scale-105 transition-transform">
+            联系我
+          </a>
+          <a href="#experience"
+             class="glass px-8 py-4 rounded-full font-semibold hover:bg-white/10">
+            查看履历
+          </a>
+        </div>
+      </div>
+
+      <div class="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0 hero-scroll">
+        <div class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center pt-2">
+          <div class="w-1 h-2 bg-acid rounded-full animate-bounce"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="py-32 px-6 relative">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-4xl md:text-6xl font-bold mb-16 reveal">
+          关于 <span class="text-acid">我</span>
+        </h2>
+
+        <div class="bento-grid">
+          <!-- Bio -->
+          <div class="glass-strong rounded-3xl p-8 col-span-2 row-span-2 reveal hover:glow transition-all duration-500">
+            <div class="flex items-start gap-4 mb-6">
+              <div class="w-12 h-12 rounded-full bg-acid/20 flex items-center justify-center">
+                <i data-lucide="user" class="w-6 h-6 text-acid"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-semibold">个人简介</h3>
+                <p class="text-text-secondary text-sm">{{ profileData.subHeadline }}</p>
+              </div>
+            </div>
+
+            <p class="text-text-secondary leading-relaxed text-lg">
+              {{ profileData.bio }}
+            </p>
+
+            <div class="mt-8 flex flex-wrap gap-3">
+              <span v-for="tag in profileData.highlights" :key="tag"
+                    class="px-4 py-2 rounded-full bg-white/5 text-sm border border-white/10">
+                {{ tag }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Experience count -->
+          <div class="glass rounded-3xl p-8 reveal hover:glow transition-all duration-500">
+            <div class="w-12 h-12 rounded-full bg-acid/20 flex items-center justify-center mb-6">
+              <i data-lucide="briefcase" class="w-6 h-6 text-acid"></i>
+            </div>
+            <h3 class="text-4xl font-bold text-acid mb-2">{{ profileData.yearsExperience }}</h3>
+            <p class="text-text-secondary">相关行业经验</p>
+          </div>
+
+          <!-- Location -->
+          <div class="glass rounded-3xl p-8 reveal hover:glow transition-all duration-500">
+            <div class="w-12 h-12 rounded-full bg-acid/20 flex items-center justify-center mb-6">
+              <i data-lucide="map-pin" class="w-6 h-6 text-acid"></i>
+            </div>
+            <h3 class="text-2xl font-bold mb-2">{{ profileData.location }}</h3>
+            <p class="text-text-secondary text-sm">寻求英国工作机会 · 首选伦敦</p>
+          </div>
+
+          <!-- Education -->
+          <div class="glass rounded-3xl p-8 reveal hover:glow transition-all duration-500">
+            <div class="w-12 h-12 rounded-full bg-acid/20 flex items-center justify-center mb-6">
+              <i data-lucide="graduation-cap" class="w-6 h-6 text-acid"></i>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">{{ profileData.education.school }}</h3>
+            <p class="text-text-secondary text-sm">{{ profileData.education.degree }}</p>
+            <p class="text-acid text-sm mt-2">{{ profileData.education.year }}</p>
+
+            <ul class="mt-4 space-y-2">
+              <li v-for="(a, i) in profileData.education.achievements" :key="i"
+                  class="text-text-secondary text-sm flex items-center gap-2">
+                <span class="text-acid">•</span>
+                <span>{{ a }}</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Focus -->
+          <div class="glass rounded-3xl p-8 reveal hover:glow transition-all duration-500">
+            <div class="w-12 h-12 rounded-full bg-acid/20 flex items-center justify-center mb-6">
+              <i data-lucide="target" class="w-6 h-6 text-acid"></i>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">职业目标</h3>
+            <p class="text-text-secondary text-sm">{{ profileData.targetRole }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" class="py-32 px-6 relative">
+      <div class="max-w-5xl mx-auto">
+        <h2 class="text-4xl md:text-6xl font-bold mb-16 reveal">
+          专业 <span class="text-acid">履历</span>
+        </h2>
+
+        <div class="timeline-container relative">
+          <div class="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-white/10 md:-translate-x-1/2"></div>
+
+          <div v-for="(exp, index) in profileData.experience" :key="index"
+               class="timeline-item relative pl-8 md:pl-0 md:grid md:grid-cols-2 md:gap-16 mb-16 reveal"
+               :class="{ 'md:text-right': index % 2 === 0 }">
+
+            <div class="absolute left-0 md:left-1/2 top-2 w-3 h-3 bg-acid rounded-full md:-translate-x-1/2 glow"></div>
+
+            <div :class="{ 'md:order-2': index % 2 === 1, 'md:order-1 md:text-right': index % 2 === 0 }">
+              <span class="text-acid text-sm font-medium">{{ exp.period }}</span>
+              <h3 class="text-2xl font-bold mt-2 mb-1">{{ exp.role }}</h3>
+              <p class="text-text-secondary mb-4">{{ exp.company }}</p>
+
+              <ul class="space-y-2">
+                <li v-for="(desc, dIndex) in exp.descriptions" :key="dIndex"
+                    class="text-text-secondary text-sm flex gap-2"
+                    :class="{ 'md:flex-row-reverse': index % 2 === 0 }">
+                  <span class="text-acid">→</span>
+                  <span>{{ desc }}</span>
+                </li>
+              </ul>
+            </div>
+
+            <div :class="{ 'md:order-1': index % 2 === 1, 'md:order-2': index % 2 === 0 }"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" class="py-32 px-6 relative">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-4xl md:text-6xl font-bold mb-16 reveal">
+          研究 <span class="text-acid">项目</span>
+        </h2>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <div v-for="(project, index) in profileData.projects" :key="index"
+               class="glass-strong rounded-3xl p-8 reveal hover:glow transition-all duration-500 group">
+            <div class="flex items-start justify-between mb-6">
+              <div class="w-14 h-14 rounded-2xl bg-acid/20 flex items-center justify-center group-hover:bg-acid/30 transition-colors">
+                <i data-lucide="folder" class="w-7 h-7 text-acid"></i>
+              </div>
+              <span class="text-text-secondary text-sm">{{ project.period }}</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-3">{{ project.title }}</h3>
+            <p class="text-acid text-sm mb-4">{{ project.subtitle }}</p>
+            <p class="text-text-secondary leading-relaxed mb-6">{{ project.description }}</p>
+
+            <div class="flex flex-wrap gap-2">
+              <span v-for="tech in project.technologies" :key="tech"
+                    class="px-3 py-1 rounded-full bg-white/5 text-xs border border-white/10">
+                {{ tech }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="py-32 relative overflow-hidden">
+      <div class="max-w-6xl mx-auto px-6 mb-16">
+        <h2 class="text-4xl md:text-6xl font-bold reveal">
+          核心 <span class="text-acid">技能</span>
+        </h2>
+      </div>
+
+      <div class="relative">
+        <div class="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-void to-transparent z-10"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-void to-transparent z-10"></div>
+
+        <div class="marquee-track py-8">
+          <div v-for="i in 2" :key="i" class="flex gap-6 px-3">
+            <div v-for="skill in profileData.skills" :key="`${i}-${skill.name}`"
+                 class="glass px-8 py-4 rounded-full flex items-center gap-3 whitespace-nowrap hover:bg-white/10 transition-colors">
+              <span class="text-acid">{{ skill.icon }}</span>
+              <span class="font-medium">{{ skill.name }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative mt-4">
+        <div class="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-void to-transparent z-10"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-void to-transparent z-10"></div>
+
+        <div class="marquee-track py-8" style="animation-direction: reverse;">
+          <div v-for="i in 2" :key="i" class="flex gap-6 px-3">
+            <div v-for="skill in profileData.skillsSecondary" :key="`${i}-${skill.name}`"
+                 class="glass px-8 py-4 rounded-full flex items-center gap-3 whitespace-nowrap hover:bg-white/10 transition-colors">
+              <span class="text-purple-400">{{ skill.icon }}</span>
+              <span class="font-medium">{{ skill.name }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="min-h-[70vh] flex flex-col justify-center items-center relative px-6 py-32">
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div class="w-[600px] h-[600px] bg-acid/5 rounded-full blur-[150px]"></div>
+      </div>
+
+      <div class="relative z-10 text-center max-w-4xl mx-auto">
+        <p class="text-acid text-sm tracking-[0.3em] uppercase mb-6 reveal">保持联系</p>
+        <h2 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 reveal">
+          将数据洞察<br><span class="text-gradient">转化为交易优势</span>
+        </h2>
+        <p class="text-xl text-text-secondary mb-12 reveal">
+          {{ profileData.footerLine }}
+        </p>
+
+        <a :href="`mailto:${profileData.email}`"
+           class="inline-block text-2xl md:text-4xl font-semibold hover:text-acid transition-colors mb-10 reveal">
+          {{ profileData.email }}
+        </a>
+
+        <div class="flex justify-center gap-6 reveal">
+          <a v-for="social in profileData.socials" :key="social.name"
+             :href="social.url" target="_blank"
+             class="glass w-14 h-14 rounded-full flex items-center justify-center hover:bg-acid hover:text-void transition-all">
+            <i :data-lucide="social.icon" class="w-6 h-6"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="absolute bottom-8 left-0 right-0 text-center">
+        <p class="text-text-secondary text-sm">
+          © {{ new Date().getFullYear() }} {{ profileData.displayName }}.
+        </p>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // ============================================
+    // ✅ PROFILE DATA（中文页）- 专业优化版本
+    // ============================================
+    const profileData = {
+      displayName: "汪昱青",
+      targetRole: "量化交易员 / 量化分析师",
+      subHeadline: "帝国理工学院 · 数学系硕士（MSci）",
+
+      email: "yuqing.1.wang@gmail.com",
+      location: "伦敦，英国",
+      yearsExperience: "3",
+
+      headline: "寻求量化交易或分析岗位。擅长运用数据分析与统计建模技术，将复杂市场信息转化为可执行的交易策略。",
+
+      bio:
+        "数学背景扎实，具备全面的量化分析能力。在多个金融与数据科学项目中，熟练使用Python、R等工具进行数据清洗、建模与可视化。硕士论文专注于可再生能源市场的极端风险建模，展现了处理复杂数据和构建稳健模型的能力。善于将理论分析转化为实际业务洞察，致力于在量化金融领域持续发展。",
+
+      highlights: [
+        "量化交易策略",
+        "统计建模与分析",
+        "机器学习应用",
+        "Python / R 编程",
+        "金融数据分析",
+        "风险管理",
+        "研究报告撰写",
+        "团队协作沟通",
+      ],
+
+      education: {
+        school: "帝国理工学院",
+        degree: "数学硕士（MSci Mathematics）",
+        year: "2021 – 2025",
+        achievements: [
+          "院长奖学金获得者（President's Undergraduate Scholarship）",
+          "核心课程成绩优异：机器学习 87% · 编程 75%",
+        ],
+      },
+
+      experience: [
+        {
+          company: "Stockhub",
+          role: "暑期投资分析师",
+          period: "2023年7月 – 2023年8月",
+          descriptions: [
+            "运用DCF模型与可比公司分析法完成企业估值，独立撰写投资分析报告",
+            "构建现金流预测模型并进行敏感性分析，产出可直接用于决策的量化结论",
+            "带领4人小组完成项目交付，并向管理层进行结构化汇报与成果展示",
+          ],
+        },
+        {
+          company: "东亚银行（金融市场部）",
+          role: "实习生",
+          period: "2021年8月 – 2021年10月",
+          descriptions: [
+            "分析利率互换（IRS）等衍生品销售数据，定期更新市场周报与业务复盘材料",
+            "监控产品表现与关键指标，协助准备合规审查与绩效评估相关文档",
+            "支持销售管理团队进行数据汇总与市场趋势分析，提炼业务洞察",
+          ],
+        },
+        {
+          company: "德勤数字",
+          role: "项目实习生",
+          period: "2021年3月 – 2021年7月",
+          descriptions: [
+            "参与企业数字化转型项目，协助梳理数据平台架构与数据湖实施方案",
+            "开展行业竞品分析与案例研究，形成标准化分析框架与可复用模板",
+          ],
+        },
+      ],
+
+      projects: [
+        {
+          title: "硕士毕业论文",
+          subtitle: "可再生能源发电的极端风险统计建模",
+          period: "2024年10月 – 2025年6月",
+          description:
+            "基于英国风电与光伏发电数据，构建统计模型刻画产量极端波动特性。采用Bootstrap重抽样方法评估模型稳健性，为电力市场风险管理提供量化支持。",
+          technologies: ["Python", "统计建模", "时间序列分析", "Bootstrap", "风险量化"],
+        },
+        {
+          title: "机器学习研究",
+          subtitle: "卷积神经网络的实现与鲁棒性评估",
+          period: "2025年3月 – 2025年4月",
+          description:
+            "使用PyTorch从零实现六层CNN完成图像分类任务。通过对抗样本攻击测试模型稳定性，并系统分析训练过程中的泛化性能与误差来源。",
+          technologies: ["PyTorch", "CNN", "对抗性机器学习", "模型评估", "计算机视觉"],
+        },
+        {
+          title: "高维数据分析",
+          subtitle: "机器学习模型对比与特征降维研究",
+          period: "2024年3月 – 2024年4月",
+          description:
+            "实现决策树、随机森林与梯度提升树等多种算法，对比PCA降维与正则化方法在高维数据上的表现，重点关注模型稳定性与可解释性。",
+          technologies: ["Python", "PCA", "集成学习", "正则化", "特征工程"],
+        },
+        {
+          title: "流行病传播建模",
+          subtitle: "基于Hawkes过程的传染病动力学研究",
+          period: "2023年5月 – 2023年6月",
+          description:
+            "应用Hawkes点过程对埃博拉与疟疾的传播事件进行建模，结合Thinning与Branching算法进行模拟与参数估计，输出传染强度变化趋势与预测区间。",
+          technologies: ["R", "Python", "Hawkes过程", "统计模拟", "流行病学建模"],
+        },
+      ],
+
+      skills: [
+        { name: "Python编程", icon: "🐍" },
+        { name: "机器学习", icon: "🤖" },
+        { name: "R语言", icon: "📊" },
+        { name: "统计建模", icon: "📈" },
+        { name: "PyTorch", icon: "🔥" },
+        { name: "数据分析", icon: "🔍" },
+        { name: "时间序列", icon: "⏱️" },
+        { name: "量化金融", icon: "💹" },
+      ],
+
+      skillsSecondary: [
+        { name: "Excel & VBA", icon: "📑" },
+        { name: "SQL", icon: "🗄️" },
+        { name: "财务建模", icon: "💰" },
+        { name: "风险管理", icon: "⚠️" },
+        { name: "深度学习", icon: "🧠" },
+        { name: "统计推断", icon: "🔄" },
+        { name: "PCA降维", icon: "📉" },
+        { name: "市场研究", icon: "📡" },
+      ],
+
+      socials: [
+        { name: "LinkedIn", icon: "linkedin", url: "https://www.linkedin.com/in/yuqing-wang-64396a20a/" },
+        { name: "GitHub", icon: "github", url: "https://github.com/yuqingwang" },
+        { name: "Email", icon: "mail", url: "mailto:yuqing.1.wang@gmail.com" },
+      ],
+    };
+
+    // ============================================
+    // VUE APP
+    // ============================================
+    const { createApp, ref, onMounted } = Vue;
+
+    createApp({
+      setup() {
+        const navItems = [
+          { id: "about", label: "关于" },
+          { id: "experience", label: "履历" },
+          { id: "projects", label: "项目" },
+          { id: "skills", label: "技能" },
+          { id: "contact", label: "联系" },
+        ];
+
+        const initHeroAnimations = () => {
+          const tl = gsap.timeline({ delay: 0.5, defaults: { ease: "power3.out" } });
+
+          tl.to(".hero-title", { opacity: 1, y: 0, duration: 1.0 })
+            .to(".hero-sub", { opacity: 1, y: 0, duration: 0.7 }, "-=0.55")
+            .to(".hero-cta", { opacity: 1, y: 0, duration: 0.7 }, "-=0.45")
+            .to(".hero-scroll", { opacity: 1, duration: 0.6 }, "-=0.35");
+        };
+
+        const initScrollAnimations = () => {
+          gsap.registerPlugin(ScrollTrigger);
+
+          gsap.utils.toArray(".reveal").forEach((elem) => {
+            gsap.to(elem, {
+              opacity: 1,
+              y: 0,
+              duration: 0.85,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: elem,
+                start: "top 85%",
+                toggleActions: "play none none none",
+              },
+            });
+          });
+
+          // subtle parallax for blobs (no scroll hijack)
+          gsap.utils.toArray(".liquid-blob").forEach((b, i) => {
+            gsap.to(b, {
+              y: (i % 2 === 0 ? -80 : 80),
+              ease: "none",
+              scrollTrigger: {
+                trigger: "#hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: 0.6,
+              },
+            });
+          });
+        };
+
+        onMounted(() => {
+          lucide.createIcons();
+          initHeroAnimations();
+          initScrollAnimations();
+        });
+
+        return { profileData, navItems };
+      },
+    }).mount("#app");
+  </script>
+</body>
+</html>
