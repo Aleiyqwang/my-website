@@ -4,19 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Yuqing Wang | Quantitative Analyst & Data Scientist</title>
+  <meta name="description" content="Yuqing Wang — Imperial College Mathematics graduate seeking quantitative analysis, data science, and investment roles in London." />
+  <meta property="og:title" content="Yuqing Wang | Portfolio" />
+  <meta property="og:description" content="Imperial College Mathematics graduate. Quantitative analyst, data scientist, developer." />
+  <meta property="og:url" content="https://aleiyqwang.github.io/my-website/" />
+  <meta property="og:type" content="website" />
 
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  
-
-  <!-- Vue 3 -->
   <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-
-  <!-- GSAP -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
-  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
   <script>
@@ -24,16 +21,14 @@
       theme: {
         extend: {
           colors: {
-            void: "#F6F7F9",           // background
-            "void-light": "#FFFFFF",   // cards
-            "text-primary": "#0B1220", // primary text
+            void: "#F6F7F9",
+            "void-light": "#FFFFFF",
+            "text-primary": "#0B1220",
             "text-secondary": "#5B6472",
-            acid: "#004165",           // ✅ Richemont Blue
+            acid: "#004165",
             border: "#E6E8EE",
           },
-          fontFamily: {
-            display: ["Inter", "system-ui", "sans-serif"],
-          },
+          fontFamily: { display: ["Inter", "system-ui", "sans-serif"] },
         },
       },
     };
@@ -41,280 +36,248 @@
 
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
-
-  body{
-    font-family: "Inter", system-ui, sans-serif;
-    color: #0B1220;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-
-    /* ✅ 更明显但依然丝滑：蓝灰雾面场 */
-    background:
-      radial-gradient(1400px 900px at 18% 18%, rgba(0,65,101,0.18), transparent 62%),
-      radial-gradient(1100px 800px at 88% 22%, rgba(90,110,130,0.16), transparent 60%),
-      radial-gradient(900px 700px at 50% 82%, rgba(0,0,0,0.08), transparent 62%),
-      linear-gradient(180deg, #FBFCFE 0%, #F2F4F7 55%, #EEF1F5 100%);
-  }
-
-
-    /* Noise Texture Overlay */
+    body {
+      font-family: "Inter", system-ui, sans-serif;
+      color: #0B1220;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      background:
+        radial-gradient(1400px 900px at 18% 18%, rgba(0,65,101,0.18), transparent 62%),
+        radial-gradient(1100px 800px at 88% 22%, rgba(90,110,130,0.16), transparent 60%),
+        radial-gradient(900px 700px at 50% 82%, rgba(0,0,0,0.08), transparent 62%),
+        linear-gradient(180deg, #FBFCFE 0%, #F2F4F7 55%, #EEF1F5 100%);
+    }
     .noise-overlay {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      z-index: 9000;
-      opacity: 0.02;
+      position: fixed; inset: 0; pointer-events: none; z-index: 9000; opacity: 0.02;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     }
-
-    /* Vignette / subtle depth (light theme) */
-  .vignette{
-    position: fixed;
-    inset: -20%;
-    pointer-events: none;
-    z-index: 0;
-    background:
-      radial-gradient(1200px 700px at 50% 35%, rgba(255,255,255,0.85), rgba(255,255,255,0.00) 60%),
-      radial-gradient(1600px 1100px at 50% 70%, rgba(0,0,0,0.00), rgba(0,0,0,0.10) 75%, rgba(0,0,0,0.14) 100%);
-    opacity: 0.9;
-  }
-
-
-    /* Base glass (light) */
+    .vignette {
+      position: fixed; inset: -20%; pointer-events: none; z-index: 0;
+      background:
+        radial-gradient(1200px 700px at 50% 35%, rgba(255,255,255,0.85), rgba(255,255,255,0.00) 60%),
+        radial-gradient(1600px 1100px at 50% 70%, rgba(0,0,0,0.00), rgba(0,0,0,0.10) 75%, rgba(0,0,0,0.14) 100%);
+      opacity: 0.9;
+    }
     .glass {
-      background: rgba(255, 255, 255, 0.70);
-      border: 1px solid rgba(230, 232, 238, 0.95);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      box-shadow:
-        0 10px 30px rgba(11, 18, 32, 0.06),
-        0 1px 0 rgba(255,255,255,0.75) inset;
+      background: rgba(255,255,255,0.70); border: 1px solid rgba(230,232,238,0.95);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 10px 30px rgba(11,18,32,0.06), 0 1px 0 rgba(255,255,255,0.75) inset;
     }
     .glass-strong {
-      background: rgba(255, 255, 255, 0.82);
-      border: 1px solid rgba(230, 232, 238, 0.98);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      box-shadow:
-        0 14px 40px rgba(11, 18, 32, 0.08),
-        0 1px 0 rgba(255,255,255,0.85) inset;
+      background: rgba(255,255,255,0.82); border: 1px solid rgba(230,232,238,0.98);
+      backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 14px 40px rgba(11,18,32,0.08), 0 1px 0 rgba(255,255,255,0.85) inset;
     }
-
-    /* ✅ 3D card system (transparent + depth + highlight edge) */
     .card-3d {
-      position: relative;
-      border-radius: 24px;
-      overflow: hidden;
-      transform: translateZ(0);
-      box-shadow:
-        0 16px 40px rgba(11, 18, 32, 0.10),
-        0 2px 0 rgba(255,255,255,0.70) inset;
+      position: relative; border-radius: 24px; overflow: hidden; transform: translateZ(0);
+      box-shadow: 0 16px 40px rgba(11,18,32,0.10), 0 2px 0 rgba(255,255,255,0.70) inset;
     }
-    .card-3d::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.10) 42%, rgba(255,255,255,0.00));
-      opacity: .55;
-      mix-blend-mode: soft-light;
+    .card-3d::before {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.10) 42%, rgba(255,255,255,0.00));
+      opacity: .55; mix-blend-mode: soft-light;
     }
-    .card-3d::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      border: 1px solid rgba(230, 232, 238, 0.95);
-      border-radius: 24px;
+    .card-3d::after {
+      content: ""; position: absolute; inset: 0; pointer-events: none;
+      border: 1px solid rgba(230,232,238,0.95); border-radius: 24px;
     }
-
-    /* ✅ Hover lift (subtle) */
     .hover-lift {
-      transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+      transition: transform .28s ease, box-shadow .28s ease;
       will-change: transform, box-shadow;
     }
     .hover-lift:hover {
       transform: translateY(-2px);
-      box-shadow:
-        0 22px 60px rgba(11, 18, 32, 0.12),
-        0 2px 0 rgba(255,255,255,0.75) inset;
+      box-shadow: 0 22px 60px rgba(11,18,32,0.12), 0 2px 0 rgba(255,255,255,0.75) inset;
     }
-
-    /* Chip styling (for Profile skills/highlights) */
     .chip {
-      background: rgba(0, 65, 101, 0.08);
-      border: 1px solid rgba(0, 65, 101, 0.14);
-      color: rgba(11,18,32,0.88);
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-size: 13px;
-      line-height: 1;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+      background: rgba(0,65,101,0.08); border: 1px solid rgba(0,65,101,0.14);
+      color: rgba(11,18,32,0.88); padding: 10px 14px; border-radius: 999px;
+      font-size: 13px; line-height: 1; display: inline-flex; align-items: center; gap: 8px;
     }
-    .chip-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: #004165;
-      opacity: .9;
-      flex: 0 0 auto;
-    }
-
-    /* Liquid Blob Animation */
+    .chip-dot { width: 6px; height: 6px; border-radius: 999px; background: #004165; opacity: .9; flex: 0 0 auto; }
     .liquid-blob {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.35;
-      animation: float 20s infinite ease-in-out;
-      will-change: transform;
-      pointer-events: none;
+      position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35;
+      animation: float 20s infinite ease-in-out; will-change: transform; pointer-events: none;
     }
     @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      25% { transform: translate(50px, -50px) scale(1.08); }
-      50% { transform: translate(-30px, 30px) scale(0.92); }
-      75% { transform: translate(40px, 20px) scale(1.05); }
+      0%, 100% { transform: translate(0,0) scale(1); }
+      25% { transform: translate(50px,-50px) scale(1.08); }
+      50% { transform: translate(-30px,30px) scale(0.92); }
+      75% { transform: translate(40px,20px) scale(1.05); }
     }
-
-    /* Marquee Animation */
     .marquee-track { display: flex; animation: marquee 30s linear infinite; will-change: transform; }
     .marquee-track:hover { animation-play-state: paused; }
     @keyframes marquee {
       0% { transform: translateX(0); }
       100% { transform: translateX(-50%); }
     }
-
-    /* Timeline Styles */
     .timeline-item { transition: opacity 0.35s ease; position: relative; }
     .timeline-item:hover { opacity: 1 !important; }
     .timeline-container:hover .timeline-item:not(:hover) { opacity: 0.3; }
-
-    /* Spotlight glow on hovered timeline card (use Richemont blue) */
-    .timeline-item:before{
-      content:"";
-      position:absolute;
-      inset:-18px;
-      border-radius: 28px;
+    .timeline-item:before {
+      content: ""; position: absolute; inset: -18px; border-radius: 28px;
       background: radial-gradient(420px 240px at 20% 10%, rgba(0,65,101,.12), transparent 60%);
-      opacity: 0;
-      transition: opacity .35s ease;
-      pointer-events:none;
+      opacity: 0; transition: opacity .35s ease; pointer-events: none;
     }
-    .timeline-item:hover:before{ opacity: 1; }
-
-    /* Scrollbar */
+    .timeline-item:hover:before { opacity: 1; }
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #F6F7F9; }
     ::-webkit-scrollbar-thumb { background: #C9CED8; border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: #004165; }
-
-    /* Text Gradient (black -> richemont blue) */
     .text-gradient {
       background: linear-gradient(135deg, #0B1220 0%, #004165 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-
-    /* Glow Effect (use richemont blue, subtle) */
-    .glow { box-shadow: 0 0 40px rgba(0, 65, 101, 0.12); }
-
-    /* Section Reveal */
+    .glow { box-shadow: 0 0 40px rgba(0,65,101,0.12); }
     .reveal { opacity: 0; transform: translateY(60px); }
-
-    /* Bento Grid */
     .bento-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
     @media (max-width: 1024px) { .bento-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 640px) { .bento-grid { grid-template-columns: 1fr; } }
-
-    /* Hero typography polish */
+    @media (max-width: 767px) { .bento-grid { grid-template-columns: 1fr !important; } }
     .hero-title { line-height: 0.88; }
     .hero-title span { text-shadow: 0 30px 80px rgba(11,18,32,.18); }
-
-    /* Reduced motion */
-    @media (prefers-reduced-motion: reduce){
+    .lang-btn {
+      padding: 5px 12px; border-radius: 999px; font-size: 12px; font-weight: 500;
+      cursor: pointer; border: none; background: transparent; transition: all .2s ease;
+    }
+    .lang-btn.active { background: #004165; color: white; }
+    .lang-btn.inactive { color: #5B6472; }
+    .lang-btn.inactive:hover { color: #0B1220; }
+    .mobile-menu {
+      position: fixed; inset: 0; z-index: 45;
+      background: rgba(246,247,249,0.97); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 1.75rem;
+    }
+    .mobile-menu-link {
+      font-size: 1.75rem; font-weight: 700; color: #0B1220;
+      transition: color .2s; text-decoration: none;
+    }
+    .mobile-menu-link:hover { color: #004165; }
+    .fade-enter-active, .fade-leave-active { transition: opacity .25s ease; }
+    .fade-enter-from, .fade-leave-to { opacity: 0; }
+    @media (prefers-reduced-motion: reduce) {
       .marquee-track { animation: none !important; }
       .liquid-blob { animation: none !important; }
       .reveal { opacity: 1 !important; transform: none !important; }
       html { scroll-behavior: auto; }
       .hover-lift:hover { transform: none; }
     }
-    @media (max-width: 767px) {
-    .bento-grid { grid-template-columns: 1fr !important; }
-  }
   </style>
 </head>
 
 <body>
-  <!-- Depth + Noise -->
   <div class="vignette"></div>
   <div class="noise-overlay"></div>
 
   <div id="app" class="relative z-[2]">
-    <!-- Navigation -->
-    <nav class="fixed top-0 left-0 w-full z-50 px-6 py-6 flex justify-between items-center glass hover-lift">
 
+    <!-- Mobile Menu -->
+    <transition name="fade">
+      <div v-show="menuOpen" class="mobile-menu">
+        <button @click="menuOpen = false"
+                class="absolute top-6 right-6 glass w-10 h-10 rounded-full flex items-center justify-center hover-lift">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+        <a v-for="item in navItems" :key="item.id"
+           :href="`#${item.id}`" @click="menuOpen = false"
+           class="mobile-menu-link">{{ item.label }}</a>
+        <div class="glass rounded-full flex items-center px-1 py-1 gap-1 mt-2">
+          <button @click="setLang('en')" class="lang-btn" :class="lang === 'en' ? 'active' : 'inactive'">EN</button>
+          <button @click="setLang('zh')" class="lang-btn" :class="lang === 'zh' ? 'active' : 'inactive'">中文</button>
+        </div>
+        <div class="flex flex-col gap-3 items-center">
+          <a :href="cvUrl" download
+             class="bg-acid text-white px-7 py-3 rounded-full font-semibold text-sm hover-lift flex items-center gap-2">
+            <i data-lucide="download" class="w-4 h-4"></i>{{ t.downloadCV }}
+          </a>
+          <a :href="`mailto:${email}`"
+             class="glass px-7 py-3 rounded-full font-semibold text-sm hover-lift">
+            {{ t.contactMe }}
+          </a>
+        </div>
+      </div>
+    </transition>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 px-6 py-5 flex justify-between items-center glass">
       <a href="#hero" class="text-xl font-bold tracking-tight">
         <span class="text-acid">Y</span>W
       </a>
 
       <div class="hidden md:flex gap-8">
-        <a v-for="item in navItems" :key="item"
+        <a v-for="item in navItems" :key="item.id"
+           :href="`#${item.id}`"
            class="text-sm transition-colors"
-           :href="`#${item.toLowerCase()}`"
-           :class="activeSection === item.toLowerCase()
-             ? 'text-text-primary'
-             : 'text-text-secondary hover:text-text-primary'">
-          {{ item }}
+           :class="activeSection === item.id ? 'text-text-primary' : 'text-text-secondary hover:text-text-primary'">
+          {{ item.label }}
         </a>
       </div>
 
-      <a :href="`mailto:${profileData.email}`"
-         class="glass px-5 py-2 rounded-full text-sm hover-lift">
-        Get in Touch
-      </a>
+      <div class="hidden md:flex items-center gap-3">
+        <div class="glass rounded-full flex items-center px-1 py-1 gap-1">
+          <button @click="setLang('en')" class="lang-btn" :class="lang === 'en' ? 'active' : 'inactive'">EN</button>
+          <button @click="setLang('zh')" class="lang-btn" :class="lang === 'zh' ? 'active' : 'inactive'">中文</button>
+        </div>
+        <a :href="cvUrl" download
+           class="glass px-4 py-2 rounded-full text-sm hover-lift font-medium flex items-center gap-2">
+          <i data-lucide="download" class="w-4 h-4"></i>{{ t.downloadCV }}
+        </a>
+        <a :href="`mailto:${email}`"
+           class="bg-acid text-white px-5 py-2 rounded-full text-sm hover-lift font-medium">
+          {{ t.contactMe }}
+        </a>
+      </div>
+
+      <div class="flex md:hidden items-center gap-2">
+        <div class="glass rounded-full flex items-center px-1 py-1 gap-1">
+          <button @click="setLang('en')" class="lang-btn" :class="lang === 'en' ? 'active' : 'inactive'">EN</button>
+          <button @click="setLang('zh')" class="lang-btn" :class="lang === 'zh' ? 'active' : 'inactive'">中</button>
+        </div>
+        <button @click="menuOpen = true"
+                class="glass w-10 h-10 rounded-full flex items-center justify-center hover-lift">
+          <i data-lucide="menu" class="w-5 h-5"></i>
+        </button>
+      </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero -->
     <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
-      <!-- Liquid Blobs (more muted, luxury tone) -->
-      <div class="liquid-blob w-96 h-96 top-20 -left-48" style="background: rgba(0,65,101,0.14);"></div>
-      <div class="liquid-blob w-80 h-80 bottom-20 -right-40" style="background: rgba(11,92,138,0.10); animation-delay:-5s;"></div>
-      <div class="liquid-blob w-64 h-64 top-1/2 left-1/3" style="background: rgba(0,65,101,0.08); animation-delay:-10s;"></div>
+      <div class="liquid-blob w-96 h-96 top-20 -left-48" style="background:rgba(0,65,101,0.14);"></div>
+      <div class="liquid-blob w-80 h-80 bottom-20 -right-40" style="background:rgba(11,92,138,0.10);animation-delay:-5s;"></div>
+      <div class="liquid-blob w-64 h-64 top-1/2 left-1/3" style="background:rgba(0,65,101,0.08);animation-delay:-10s;"></div>
 
       <div class="relative z-10 text-center px-6 max-w-6xl mx-auto">
         <div class="hero-content">
           <h1 class="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter mb-8 opacity-0 hero-title">
-            <span class="block">{{ profileData.firstName }}</span>
-            <span class="block text-gradient">{{ profileData.lastName }}</span>
+            <template v-if="lang === 'en'">
+              <span class="block">{{ t.firstName }}</span>
+              <span class="block text-gradient">{{ t.lastName }}</span>
+            </template>
+            <template v-else>
+              <span class="block text-gradient">{{ t.firstName }}</span>
+            </template>
           </h1>
-
           <p class="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto opacity-0 hero-sub">
-            {{ profileData.headline }}
+            {{ t.headline }}
           </p>
-
-          <div class="mt-12 flex gap-4 justify-center opacity-0 hero-cta">
-            <a :href="`mailto:${profileData.email}`"
+          <div class="mt-12 flex flex-wrap gap-4 justify-center opacity-0 hero-cta">
+            <a :href="`mailto:${email}`"
                class="bg-acid text-white px-8 py-4 rounded-full font-semibold hover-lift">
-              Contact Me
+              {{ t.contactMe }}
+            </a>
+            <a :href="cvUrl" download
+               class="glass px-8 py-4 rounded-full font-semibold hover-lift flex items-center gap-2">
+              <i data-lucide="download" class="w-5 h-5"></i>{{ t.downloadCV }}
             </a>
             <a href="#experience"
                class="glass px-8 py-4 rounded-full font-semibold hover-lift">
-              View Experience
+              {{ t.viewExperience }}
             </a>
           </div>
         </div>
       </div>
 
-      <!-- Scroll Indicator (fix for light theme) -->
       <div class="absolute bottom-10 left-1/2 -translate-x-1/2 opacity-0 hero-scroll">
         <div class="w-6 h-10 border-2 border-black/20 rounded-full flex justify-center pt-2">
           <div class="w-1 h-2 bg-acid rounded-full animate-bounce"></div>
@@ -322,152 +285,154 @@
       </div>
     </section>
 
-    <!-- About Section - Bento Grid -->
+    <!-- About -->
     <section id="about" class="py-32 px-6 relative">
       <div class="max-w-6xl mx-auto">
         <h2 class="text-4xl md:text-6xl font-bold mb-16 reveal">
-          About <span class="text-acid">Me</span>
+          {{ t.aboutTitle }} <span class="text-acid">{{ t.aboutMe }}</span>
         </h2>
 
         <div class="bento-grid">
-          <!-- Main Bio Card -->
           <div class="glass-strong card-3d hover-lift p-8 md:col-span-2 md:row-span-2 reveal">
-
             <div class="flex items-start gap-4 mb-6">
               <div class="w-12 h-12 rounded-full bg-acid/10 flex items-center justify-center">
                 <i data-lucide="user" class="w-6 h-6 text-acid"></i>
               </div>
               <div>
-                <h3 class="text-xl font-semibold">Profile</h3>
-                <p class="text-text-secondary text-sm">Mathematics Graduate at Imperial College</p>
+                <h3 class="text-xl font-semibold">{{ t.profileLabel }}</h3>
+                <p class="text-text-secondary text-sm">{{ t.profileSub }}</p>
               </div>
             </div>
-
-            <p class="text-text-secondary leading-relaxed text-lg">
-              {{ profileData.bio }}
-            </p>
-
-            <!-- ✅ Skills (方案1)：chips + container（不再“突兀贴出来”） -->
+            <p class="text-text-secondary leading-relaxed text-lg">{{ t.bio }}</p>
             <div class="mt-8 glass rounded-2xl p-5 hover-lift">
               <div class="flex items-center justify-between mb-3">
-                <p class="text-sm font-semibold text-text-primary">Core strengths</p>
-                <p class="text-xs text-text-secondary">Selected highlights</p>
+                <p class="text-sm font-semibold text-text-primary">{{ t.coreStrengths }}</p>
+                <p class="text-xs text-text-secondary">{{ t.selectedHighlights }}</p>
               </div>
               <div class="flex flex-wrap gap-2">
-                <span v-for="tag in profileData.highlights" :key="tag" class="chip">
-                  <span class="chip-dot"></span>
-                  <span>{{ tag }}</span>
+                <span v-for="tag in t.highlights" :key="tag" class="chip">
+                  <span class="chip-dot"></span><span>{{ tag }}</span>
                 </span>
               </div>
             </div>
           </div>
 
-          <!-- Experience Card -->
           <div class="glass card-3d hover-lift rounded-3xl p-8 reveal">
             <div class="w-12 h-12 rounded-full bg-acid/10 flex items-center justify-center mb-6">
               <i data-lucide="briefcase" class="w-6 h-6 text-acid"></i>
             </div>
-            <h3 class="text-4xl font-bold text-acid mb-2">{{ profileData.yearsExperience }}</h3>
-            <p class="text-text-secondary">Internships / Roles</p>
+            <h3 class="text-4xl font-bold text-acid mb-2">4</h3>
+            <p class="text-text-secondary">{{ t.internshipsLabel }}</p>
           </div>
 
-          <!-- Location Card -->
           <div class="glass card-3d hover-lift rounded-3xl p-8 reveal">
             <div class="w-12 h-12 rounded-full bg-acid/10 flex items-center justify-center mb-6">
               <i data-lucide="map-pin" class="w-6 h-6 text-acid"></i>
             </div>
-            <h3 class="text-2xl font-bold mb-2">{{ profileData.location }}</h3>
-            <p class="text-text-secondary text-sm">Based in UK · open to London roles</p>
+            <h3 class="text-2xl font-bold mb-2">{{ t.location }}</h3>
+            <p class="text-text-secondary text-sm">{{ t.locationSub }}</p>
           </div>
 
-          <!-- Education Card -->
           <div class="glass card-3d hover-lift rounded-3xl p-8 reveal">
             <div class="w-12 h-12 rounded-full bg-acid/10 flex items-center justify-center mb-6">
               <i data-lucide="graduation-cap" class="w-6 h-6 text-acid"></i>
             </div>
-
-            <h3 class="text-lg font-semibold mb-2">{{ profileData.education.school }}</h3>
-            <p class="text-text-secondary text-sm">{{ profileData.education.degree }}</p>
-            <p class="text-acid text-sm mt-2">{{ profileData.education.year }}</p>
-
+            <h3 class="text-lg font-semibold mb-2">{{ t.education.school }}</h3>
+            <p class="text-text-secondary text-sm">{{ t.education.degree }}</p>
+            <p class="text-acid text-sm mt-2">{{ t.education.year }}</p>
             <ul class="mt-4 space-y-2">
-              <li v-for="(a, i) in profileData.education.achievements"
-                  :key="i"
+              <li v-for="(a, i) in t.education.achievements" :key="i"
                   class="text-text-secondary text-sm flex items-center gap-2">
-                <span class="text-acid">•</span>
-                <span>{{ a }}</span>
+                <span class="text-acid">•</span><span>{{ a }}</span>
               </li>
             </ul>
           </div>
 
-          <!-- Achievement Card -->
           <div class="glass card-3d hover-lift rounded-3xl p-8 reveal">
             <div class="w-12 h-12 rounded-full bg-acid/10 flex items-center justify-center mb-6">
               <i data-lucide="award" class="w-6 h-6 text-acid"></i>
             </div>
-            <h3 class="text-lg font-semibold mb-2">President's Scholarship</h3>
-            <p class="text-text-secondary text-sm">Academic Excellence Award</p>
+            <h3 class="text-lg font-semibold mb-2">{{ t.scholarship.title }}</h3>
+            <p class="text-text-secondary text-sm">{{ t.scholarship.sub }}</p>
+          </div>
+
+          <div class="glass card-3d hover-lift rounded-3xl p-8 reveal">
+            <div class="w-12 h-12 rounded-full bg-acid/10 flex items-center justify-center mb-6">
+              <i data-lucide="globe" class="w-6 h-6 text-acid"></i>
+            </div>
+            <h3 class="text-lg font-semibold mb-4">{{ t.languagesTitle }}</h3>
+            <div class="space-y-3">
+              <div v-for="item in t.languageItems" :key="item.name"
+                   class="flex items-center justify-between">
+                <span class="text-text-primary text-sm font-medium">{{ item.name }}</span>
+                <span class="text-acid text-xs font-semibold px-3 py-1 rounded-full"
+                      style="background:rgba(0,65,101,0.08);border:1px solid rgba(0,65,101,0.15);">
+                  {{ item.level }}
+                </span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Experience Section - Timeline -->
+    <!-- Experience -->
     <section id="experience" class="py-32 px-6 relative">
       <div class="max-w-5xl mx-auto">
         <h2 class="text-4xl md:text-6xl font-bold mb-16 reveal">
-          Work <span class="text-acid">Experience</span>
+          {{ t.expTitle }} <span class="text-acid">{{ t.expLabel }}</span>
         </h2>
 
         <div class="timeline-container relative">
-          <!-- timeline line (use border colour for light theme) -->
           <div class="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-border md:-translate-x-1/2"></div>
 
-          <div v-for="(exp, index) in profileData.experience" :key="index"
+          <div v-for="(exp, index) in t.experience" :key="index"
                class="timeline-item relative pl-8 md:pl-0 md:grid md:grid-cols-2 md:gap-16 mb-16 reveal"
                :class="{ 'md:text-right': index % 2 === 0 }">
-
             <div class="absolute left-0 md:left-1/2 top-4 w-3 h-3 bg-acid rounded-full md:-translate-x-1/2 glow"></div>
 
-            <!-- ✅ Transparent 3D card around each experience -->
             <div :class="{ 'md:order-2': index % 2 === 1, 'md:order-1 md:text-right': index % 2 === 0 }">
               <div class="glass card-3d hover-lift p-8">
                 <span class="text-acid text-sm font-medium">{{ exp.period }}</span>
                 <h3 class="text-2xl font-bold mt-2 mb-1">{{ exp.role }}</h3>
                 <p class="text-text-secondary mb-5">{{ exp.company }}</p>
-
                 <ul class="space-y-3">
-                  <li v-for="(desc, dIndex) in exp.descriptions" :key="dIndex"
+                  <li v-for="(desc, di) in exp.descriptions" :key="di"
                       class="text-text-secondary text-sm flex gap-2"
                       :class="{ 'md:flex-row-reverse': index % 2 === 0 }">
-                    <span class="text-acid">→</span>
-                    <span>{{ desc }}</span>
+                    <span class="text-acid flex-shrink-0">→</span><span>{{ desc }}</span>
                   </li>
                 </ul>
               </div>
             </div>
-
             <div :class="{ 'md:order-1': index % 2 === 1, 'md:order-2': index % 2 === 0 }"></div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Projects Section -->
+    <!-- Projects -->
     <section id="projects" class="py-32 px-6 relative">
       <div class="max-w-6xl mx-auto">
         <h2 class="text-4xl md:text-6xl font-bold mb-16 reveal">
-          Featured <span class="text-acid">Projects</span>
+          {{ t.projTitle }} <span class="text-acid">{{ t.projLabel }}</span>
         </h2>
 
         <div class="grid md:grid-cols-2 gap-8">
-          <div v-for="(project, index) in profileData.projects" :key="index"
+          <div v-for="(project, index) in t.projects" :key="index"
                class="glass-strong card-3d hover-lift p-8 reveal group">
             <div class="flex items-start justify-between mb-6">
               <div class="w-14 h-14 rounded-2xl bg-acid/10 flex items-center justify-center group-hover:bg-acid/15 transition-colors">
                 <i data-lucide="folder" class="w-7 h-7 text-acid"></i>
               </div>
-              <span class="text-text-secondary text-sm">{{ project.period }}</span>
+              <div class="flex items-center gap-2">
+                <span class="text-text-secondary text-sm">{{ project.period }}</span>
+                <a v-if="project.link" :href="project.link" target="_blank" rel="noopener noreferrer"
+                   class="w-8 h-8 rounded-full glass flex items-center justify-center hover:bg-acid hover:text-white transition-all"
+                   @click.stop>
+                  <i data-lucide="external-link" class="w-4 h-4"></i>
+                </a>
+              </div>
             </div>
             <h3 class="text-2xl font-bold mb-3">{{ project.title }}</h3>
             <p class="text-acid text-sm mb-4">{{ project.subtitle }}</p>
@@ -483,21 +448,20 @@
       </div>
     </section>
 
-    <!-- Skills Section -->
+    <!-- Skills -->
     <section id="skills" class="py-32 relative overflow-hidden">
       <div class="max-w-6xl mx-auto px-6 mb-16">
         <h2 class="text-4xl md:text-6xl font-bold reveal">
-          Technical <span class="text-acid">Skills</span>
+          {{ t.skillsTitle }} <span class="text-acid">{{ t.skillsLabel }}</span>
         </h2>
       </div>
 
       <div class="relative">
         <div class="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-void to-transparent z-10"></div>
         <div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-void to-transparent z-10"></div>
-
         <div class="marquee-track py-8">
           <div v-for="i in 2" :key="i" class="flex gap-6 px-3">
-            <div v-for="skill in profileData.skills" :key="`${i}-${skill.name}`"
+            <div v-for="skill in t.skills" :key="`${i}-${skill.name}`"
                  class="glass hover-lift px-8 py-4 rounded-full flex items-center gap-3 whitespace-nowrap">
               <span class="text-acid">{{ skill.icon }}</span>
               <span class="font-medium text-text-primary">{{ skill.name }}</span>
@@ -509,10 +473,9 @@
       <div class="relative mt-4">
         <div class="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-void to-transparent z-10"></div>
         <div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-void to-transparent z-10"></div>
-
-        <div class="marquee-track py-8" style="animation-direction: reverse;">
+        <div class="marquee-track py-8" style="animation-direction:reverse;">
           <div v-for="i in 2" :key="i" class="flex gap-6 px-3">
-            <div v-for="skill in profileData.skillsSecondary" :key="`${i}-${skill.name}`"
+            <div v-for="skill in t.skillsSecondary" :key="`${i}-${skill.name}`"
                  class="glass hover-lift px-8 py-4 rounded-full flex items-center gap-3 whitespace-nowrap">
               <span class="text-acid">{{ skill.icon }}</span>
               <span class="font-medium text-text-primary">{{ skill.name }}</span>
@@ -527,214 +490,385 @@
       <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div class="w-[600px] h-[600px] bg-acid/5 rounded-full blur-[150px]"></div>
       </div>
-
       <div class="relative z-10 text-center max-w-4xl mx-auto">
-        <p class="text-acid text-sm tracking-[0.3em] uppercase mb-6 reveal">Let's Connect</p>
+        <p class="text-acid text-sm tracking-[0.3em] uppercase mb-6 reveal">{{ t.letsConnect }}</p>
         <h2 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 reveal">
-          Let's Work<br><span class="text-gradient">Together</span>
+          {{ t.footerH1 }}<br><span class="text-gradient">{{ t.footerH2 }}</span>
         </h2>
-        <p class="text-xl text-text-secondary mb-12 reveal">
-          Open to opportunities in quantitative analysis, data analysis, investment banking and global markets roles.
-        </p>
-
-        <a :href="`mailto:${profileData.email}`"
+        <p class="text-xl text-text-secondary mb-12 reveal">{{ t.footerLine }}</p>
+        <a :href="`mailto:${email}`"
            class="inline-block text-2xl md:text-4xl font-semibold hover:text-acid transition-colors mb-16 reveal">
-          {{ profileData.email }}
+          {{ email }}
         </a>
-
         <div class="flex justify-center gap-6 reveal">
-          <a v-for="social in profileData.socials" :key="social.name"
+          <a v-for="social in socials" :key="social.name"
              :href="social.url" target="_blank"
              class="glass hover-lift w-14 h-14 rounded-full flex items-center justify-center hover:bg-acid hover:text-white transition-all">
             <i :data-lucide="social.icon" class="w-6 h-6"></i>
           </a>
         </div>
       </div>
-
       <div class="absolute bottom-8 left-0 right-0 text-center">
-        <p class="text-text-secondary text-sm">
-          © {{ new Date().getFullYear() }} {{ profileData.firstName }} {{ profileData.lastName }}. All rights reserved.
-        </p>
+        <p class="text-text-secondary text-sm">© {{ new Date().getFullYear() }} Yuqing Wang. {{ t.rights }}</p>
       </div>
     </footer>
+
   </div>
 
   <script>
-    // ============================================
-    // PROFILE DATA - Easy Configuration
-    // ============================================
-    const profileData = {
-      firstName: "Yuqing",
-      lastName: "Wang",
+    const SHARED = {
       email: "yuqing.1.wang@gmail.com",
-      phone: "07888316307",
-      location: "London, UK",
-      yearsExperience: "3",
-      headline: "Quantitative thinker with strong Python/R and machine learning foundations seeking data-driven roles.",
-      bio:
-        "I have a strong quantitative background, with academic and project experience in data analysis, statistical modelling, and applied research. During my Master's thesis, \
-        I worked extensively with Python to clean, analyse, and interpret large datasets, which strengthened both my technical and ability to communicate insights clearly. Currently exploring \
-        opportunities in data-related, analytical, and quantitative roles where I can continue to develop my technical skills while contributing to practical, high-impact work.",
-      highlights: [
-        "Machine Learning",
-        "Quantitative Finance",
-        "Statistical Modeling",
-        "Python & R",
-        "Data Analysis",
-        "Problem Solving",
-        "Team Player",
-        "Strong Communicator",
-        "Leadership",
-      ],
-      education: {
-        school: "Imperial College London",
-        degree: "MSci Mathematics",
-        year: "2021 - 2025",
-        achievements: [
-          // ✅ removed duplicate scholarship (shown in the next card)
-          "87% in Machine Learning",
-          "75% in Programming",
-        ],
-      },
-      experience: [
-        {
-          company: "Stockhub",
-          role: "Summer Investment Analyst",
-          period: "Jul 2023 - Aug 2023",
-          descriptions: [
-            "Conducted valuations using DCF and comparable company analysis",
-            "Created financial models and investment reports for senior management",
-            "Led team of 4 analysts on energy company valuation project",
-          ],
-        },
-        {
-          company: "Bank of East Asia",
-          role: "Financial Markets Intern",
-          period: "Aug 2021 - Oct 2021",
-          descriptions: [
-            "Analyzed sales data for Interest Rate Swaps and derivatives",
-            "Monitored product performance and compliance reporting",
-            "Supported Sales Management and Business Strategy teams",
-          ],
-        },
-        {
-          company: "Deloitte Digital",
-          role: "Project Intern",
-          period: "Mar 2021 - Jul 2021",
-          descriptions: [
-            "Supported digital transformation for luxury company",
-            "Assisted in data lake platform architecture design",
-            "Performed desk research for benchmarking and case studies",
-          ],
-        },
-      ],
-      projects: [
-        {
-          title: "Master Thesis",
-          subtitle: "Quantitative Energy Risk Analysis",
-          period: "Oct 2024 - Jun 2025",
-          description:
-            "Developed quantitative models to analyze and forecast renewable energy production extremes across UK regions and seasons. Implemented parametric bootstrap methodology in Python for risk assessment.",
-          technologies: ["Python", "Statistical Modeling", "Time Series", "Bootstrap"],
-        },
-        {
-          title: "Machine Learning Project",
-          subtitle: "CNN Modelling from Scratch",
-          period: "Mar 2025 - Apr 2025",
-          description:
-            "Built and trained a six-layer CNN in PyTorch for image classification. Implemented adversarial attacks to measure model robustness and applied statistical learning theory.",
-          technologies: ["PyTorch", "CNN", "Adversarial ML", "Computer Vision"],
-        },
-        {
-          title: "Data Science Project",
-          subtitle: "High-Dimensional ML",
-          period: "Mar 2024 - Apr 2024",
-          description:
-            "Implemented ML models from scratch including Decision Trees, Random Forests, and Gradient Boosted Trees. Developed PCA and penalized logistic regression for medical data.",
-          technologies: ["Python", "PCA", "Ensemble Methods", "Medical AI"],
-        },
-        {
-          title: "Research Project",
-          subtitle: "Infectious Disease Modeling",
-          period: "May 2023 - Jun 2023",
-          description:
-            "Used Hawkes Processes to model Ebola and Malaria spread. Applied statistical methods including Thinning and Branching processes to forecast outbreak outcomes.",
-          technologies: ["R", "Python", "Hawkes Processes", "Epidemiology"],
-        },
-      ],
-      skills: [
-        { name: "Python", icon: "🐍" },
-        { name: "Machine Learning", icon: "🤖" },
-        { name: "R Programming", icon: "📊" },
-        { name: "Statistical Modeling", icon: "📈" },
-        { name: "PyTorch", icon: "🔥" },
-        { name: "Data Analysis", icon: "🔍" },
-        { name: "Time Series", icon: "⏱️" },
-        { name: "Quantitative Finance", icon: "💹" },
-      ],
-      skillsSecondary: [
-        { name: "Excel & VBA", icon: "📑" },
-        { name: "SQL", icon: "🗄️" },
-        { name: "Financial Modeling", icon: "💰" },
-        { name: "Risk Analysis", icon: "⚠️" },
-        { name: "Deep Learning", icon: "🧠" },
-        { name: "Bootstrap Methods", icon: "🔄" },
-        { name: "PCA", icon: "📉" },
-        { name: "Algorithmic Trading", icon: "📡" },
-      ],
+      cvUrl: "./Yuqing_Wang_CV.pdf",
       socials: [
         { name: "LinkedIn", icon: "linkedin", url: "https://www.linkedin.com/in/yuqing-wang-64396a20a/" },
-        { name: "GitHub", icon: "github", url: "https://github.com/yuqingwang" },
-        { name: "Email", icon: "mail", url: "mailto:yuqing.1.wang@gmail.com" },
+        { name: "GitHub",   icon: "github",   url: "https://github.com/yuqingwang" },
+        { name: "Email",    icon: "mail",      url: "mailto:yuqing.1.wang@gmail.com" },
       ],
+    };
+
+    const i18n = {
+      en: {
+        downloadCV: "Download CV",
+        contactMe: "Get in Touch",
+        viewExperience: "View Experience",
+        firstName: "Yuqing",
+        lastName: "Wang",
+        location: "London, UK",
+        locationSub: "Based in UK · open to London roles",
+        internshipsLabel: "Internships / Roles",
+        headline: "Quantitative thinker with strong Python/R and machine learning foundations seeking data-driven roles.",
+        bio: "I have a strong quantitative background, with academic and project experience in data analysis, statistical modelling, and applied research. During my Master's thesis I worked extensively with Python to clean, analyse, and interpret large datasets, strengthening both my technical skills and ability to communicate insights clearly. I am exploring opportunities in data-related, analytical, and quantitative roles where I can contribute to practical, high-impact work.",
+        highlights: ["Machine Learning","Quantitative Finance","Statistical Modeling","Python & R","Data Analysis","Problem Solving","Team Player","Strong Communicator","Leadership"],
+        profileLabel: "Profile",
+        profileSub: "Mathematics Graduate at Imperial College",
+        coreStrengths: "Core strengths",
+        selectedHighlights: "Selected highlights",
+        aboutTitle: "About", aboutMe: "Me",
+        education: {
+          school: "Imperial College London",
+          degree: "MSci Mathematics",
+          year: "2021 – 2025",
+          achievements: ["87% in Machine Learning", "75% in Programming", "Modules: Statistical Modelling, Option Pricing"],
+        },
+        scholarship: { title: "President's Scholarship", sub: "Undergraduate Academic Excellence Award" },
+        languagesTitle: "Languages",
+        languageItems: [
+          { name: "English",  level: "Fluent" },
+          { name: "Mandarin", level: "Native" },
+        ],
+        expTitle: "Work", expLabel: "Experience",
+        experience: [
+          {
+            company: "Stockhub",
+            role: "Summer Investment Analyst",
+            period: "Jul 2023 – Aug 2023",
+            descriptions: [
+              "Conducted valuations of public companies in energy and tech sectors using DCF and comparable company analysis, identifying valuation inefficiencies",
+              "Created detailed financial models and investment reports, presenting quantitative insights to senior management",
+              "Led a team of 4 analysts on an energy company valuation, coordinating tasks and delivering ahead of schedule",
+            ],
+          },
+          {
+            company: "Bank of East Asia",
+            role: "Financial Markets Intern",
+            period: "Aug 2021 – Oct 2021",
+            descriptions: [
+              "Collaborated with Sales Management and Business Strategy teams to assess performance and support execution of sales strategies",
+              "Analysed weekly sales data for financial derivatives including Interest Rate Swaps, Cross-Currency Swaps, and options",
+              "Monitored derivative product performance via monthly income tracking, ensuring compliance with reporting standards",
+            ],
+          },
+          {
+            company: "Bank of East Asia",
+            role: "Debt Capital Markets Intern",
+            period: "Aug 2021 – Oct 2021",
+            descriptions: [
+              "Researched and produced weekly briefings on debt capital markets, focusing on macroeconomic trends and interest rate movements",
+              "Analysed credit reports and evaluated return on investment for a portfolio of bonds and fixed-income securities",
+              "Collaborated with senior analysts to prepare market outlook presentations on corporate debt issuance strategies",
+            ],
+          },
+          {
+            company: "Deloitte Digital",
+            role: "Project Intern",
+            period: "Mar 2021 – Jul 2021",
+            descriptions: [
+              "Participated in a 6-week digital transformation project for a leading luxury company, helping design a data lake platform",
+              "Met with clients to align on design principles and assisted in framework capability and use-case architecture production",
+              "Performed desk research to identify reference cases and benchmarking data for use-case analysis",
+            ],
+          },
+        ],
+        projTitle: "Featured", projLabel: "Projects",
+        projects: [
+          {
+            title: "Master Thesis",
+            subtitle: "Quantitative Energy Risk Analysis",
+            period: "Oct 2024 – Jun 2025",
+            description: "Developed quantitative models to analyse and forecast renewable energy production extremes across UK regions and seasons. Implemented parametric bootstrap methodology in Python for risk assessment in power markets.",
+            technologies: ["Python", "Statistical Modeling", "Time Series", "Bootstrap"],
+            link: null,
+          },
+          {
+            title: "Machine Learning Project",
+            subtitle: "CNN Modelling from Scratch",
+            period: "Mar 2025 – Apr 2025",
+            description: "Built and trained a six-layer CNN in PyTorch for Linnaeus-5 image classification. Implemented iterative adversarial attacks to measure model robustness and applied statistical learning theory to model selection.",
+            technologies: ["PyTorch", "CNN", "Adversarial ML", "Computer Vision"],
+            link: null,
+          },
+          {
+            title: "Data Science Project",
+            subtitle: "Machine Learning for High-Dimensional Data",
+            period: "Mar 2024 – Apr 2024",
+            description: "Implemented ML models from scratch including Decision Trees, Random Forests, and Gradient Boosted Trees. Developed PCA and penalised logistic regression for medical data analysis.",
+            technologies: ["Python", "PCA", "Ensemble Methods", "Medical AI"],
+            link: null,
+          },
+          {
+            title: "Research Project",
+            subtitle: "Infectious Disease Modelling",
+            period: "May 2023 – Jun 2023",
+            description: "Used Hawkes Processes to model Ebola and Malaria spread. Applied Thinning and Branching process methods to forecast outbreak outcomes and transmission intensity.",
+            technologies: ["R", "Python", "Hawkes Processes", "Epidemiology"],
+            link: null,
+          },
+          {
+            title: "Portfolio Website",
+            subtitle: "Bilingual CV Site — Vue · GSAP · Tailwind",
+            period: "2025",
+            description: "Designed and built this bilingual portfolio website from scratch. Features glassmorphism design, GSAP scroll animations, Vue 3 reactivity, responsive layout, and EN/ZH language switching.",
+            technologies: ["Vue 3", "GSAP", "Tailwind CSS", "JavaScript"],
+            link: "https://aleiyqwang.github.io/my-website/",
+          },
+        ],
+        skillsTitle: "Technical", skillsLabel: "Skills",
+        skills: [
+          { name: "Python",              icon: "🐍" },
+          { name: "Machine Learning",    icon: "🤖" },
+          { name: "R Programming",       icon: "📊" },
+          { name: "Statistical Modeling",icon: "📈" },
+          { name: "PyTorch",             icon: "🔥" },
+          { name: "Data Analysis",       icon: "🔍" },
+          { name: "Time Series",         icon: "⏱️" },
+          { name: "Quantitative Finance",icon: "💹" },
+        ],
+        skillsSecondary: [
+          { name: "Excel & VBA",        icon: "📑" },
+          { name: "SQL",                icon: "🗄️" },
+          { name: "Financial Modeling", icon: "💰" },
+          { name: "Risk Analysis",      icon: "⚠️" },
+          { name: "Deep Learning",      icon: "🧠" },
+          { name: "Bootstrap Methods",  icon: "🔄" },
+          { name: "PCA",                icon: "📉" },
+          { name: "Algorithmic Trading",icon: "📡" },
+        ],
+        letsConnect: "Let's Connect",
+        footerH1: "Let's Work",
+        footerH2: "Together",
+        footerLine: "Open to opportunities in quantitative analysis, data analysis, investment banking and global markets roles.",
+        rights: "All rights reserved.",
+      },
+
+      zh: {
+        downloadCV: "下载简历",
+        contactMe: "联系我",
+        viewExperience: "查看履历",
+        firstName: "汪昱青",
+        lastName: "",
+        location: "伦敦，英国",
+        locationSub: "寻求英国工作机会 · 首选伦敦",
+        internshipsLabel: "相关行业经验",
+        headline: "寻求量化交易或分析岗位，擅长运用数据分析与统计建模技术，将复杂市场信息转化为可执行策略。",
+        bio: "数学背景扎实，具备全面的量化分析能力。在多个金融与数据科学项目中，熟练使用 Python、R 等工具进行数据清洗、建模与可视化。硕士论文专注于可再生能源市场的极端风险建模，展现了处理复杂数据和构建稳健模型的能力。善于将理论分析转化为实际业务洞察，致力于在量化金融领域持续发展。",
+        highlights: ["量化交易策略","统计建模与分析","机器学习应用","Python / R 编程","金融数据分析","风险管理","研究报告撰写","团队协作沟通"],
+        profileLabel: "个人简介",
+        profileSub: "帝国理工学院 · 数学硕士（MSci）",
+        coreStrengths: "核心技能",
+        selectedHighlights: "精选亮点",
+        aboutTitle: "关于", aboutMe: "我",
+        education: {
+          school: "帝国理工学院",
+          degree: "数学硕士（MSci Mathematics）",
+          year: "2021 – 2025",
+          achievements: ["机器学习 87% · 编程 75%", "模块：统计建模、期权定价"],
+        },
+        scholarship: { title: "院长奖学金", sub: "President's Undergraduate Scholarship" },
+        languagesTitle: "语言",
+        languageItems: [
+          { name: "英语",  level: "流利" },
+          { name: "普通话",level: "母语" },
+        ],
+        expTitle: "专业", expLabel: "履历",
+        experience: [
+          {
+            company: "Stockhub",
+            role: "暑期投资分析师",
+            period: "2023年7月 – 2023年8月",
+            descriptions: [
+              "运用 DCF 模型与可比公司分析法完成能源及科技企业估值，识别潜在估值偏差",
+              "构建现金流预测模型并进行敏感性分析，产出可直接用于决策的量化结论，向管理层汇报",
+              "带领4人小组完成能源公司估值项目，统筹协调任务并提前完成交付",
+            ],
+          },
+          {
+            company: "东亚银行",
+            role: "金融市场部实习生",
+            period: "2021年8月 – 2021年10月",
+            descriptions: [
+              "协同销售管理与业务策略团队评估绩效，支持销售策略执行",
+              "分析金融衍生品（利率互换、交叉货币互换、期权）每周销售数据，确保报表准确及时",
+              "通过追踪各衍生品月度收入监控产品表现，确保合规报告标准",
+            ],
+          },
+          {
+            company: "东亚银行",
+            role: "债务资本市场部实习生",
+            period: "2021年8月 – 2021年10月",
+            descriptions: [
+              "研究并撰写债务资本市场周报，聚焦宏观经济走势与利率动态",
+              "分析信用报告，评估债券及固定收益证券的投资回报",
+              "协助高级分析师准备企业债券发行策略的市场展望演示材料",
+            ],
+          },
+          {
+            company: "德勤数字",
+            role: "项目实习生",
+            period: "2021年3月 – 2021年7月",
+            descriptions: [
+              "参与奢侈品企业6周数字化转型项目，协助设计数据湖平台架构方案",
+              "与客户沟通设计原则，协助制定框架能力与用例驱动的架构设计",
+              "开展行业竞品分析与案例研究，构建可复用的标准化基准分析框架",
+            ],
+          },
+        ],
+        projTitle: "研究", projLabel: "项目",
+        projects: [
+          {
+            title: "硕士毕业论文",
+            subtitle: "可再生能源发电的极端风险统计建模",
+            period: "2024年10月 – 2025年6月",
+            description: "基于英国风电与光伏发电数据，构建统计模型刻画产量极端波动特性。采用 Bootstrap 重抽样方法评估模型稳健性，为电力市场风险管理提供量化支持。",
+            technologies: ["Python", "统计建模", "时间序列分析", "Bootstrap", "风险量化"],
+            link: null,
+          },
+          {
+            title: "机器学习研究",
+            subtitle: "卷积神经网络的实现与鲁棒性评估",
+            period: "2025年3月 – 2025年4月",
+            description: "使用 PyTorch 从零实现六层 CNN 完成 Linnaeus-5 图像分类任务。通过对抗样本攻击测试模型稳定性，系统分析训练过程中的泛化性能与误差来源。",
+            technologies: ["PyTorch", "CNN", "对抗性机器学习", "模型评估", "计算机视觉"],
+            link: null,
+          },
+          {
+            title: "高维数据分析",
+            subtitle: "机器学习模型对比与特征降维研究",
+            period: "2024年3月 – 2024年4月",
+            description: "实现决策树、随机森林与梯度提升树等多种算法，对比 PCA 降维与正则化方法在高维医疗数据上的表现，重点关注模型稳定性与可解释性。",
+            technologies: ["Python", "PCA", "集成学习", "正则化", "特征工程"],
+            link: null,
+          },
+          {
+            title: "流行病传播建模",
+            subtitle: "基于 Hawkes 过程的传染病动力学研究",
+            period: "2023年5月 – 2023年6月",
+            description: "应用 Hawkes 点过程对埃博拉与疟疾的传播事件进行建模，结合 Thinning 与 Branching 算法进行模拟与参数估计，输出传染强度变化趋势与预测区间。",
+            technologies: ["R", "Python", "Hawkes过程", "统计模拟", "流行病学建模"],
+            link: null,
+          },
+          {
+            title: "个人作品集网站",
+            subtitle: "中英双语简历网站 — Vue · GSAP · Tailwind",
+            period: "2025年",
+            description: "从零设计并构建这个中英双语个人作品集网站，集成玻璃拟态设计、GSAP 滚动动画、响应式布局与 Vue 3 响应式系统，支持中英语言切换。",
+            technologies: ["Vue 3", "GSAP", "Tailwind CSS", "JavaScript"],
+            link: "https://aleiyqwang.github.io/my-website/",
+          },
+        ],
+        skillsTitle: "核心", skillsLabel: "技能",
+        skills: [
+          { name: "Python编程",  icon: "🐍" },
+          { name: "机器学习",    icon: "🤖" },
+          { name: "R语言",       icon: "📊" },
+          { name: "统计建模",    icon: "📈" },
+          { name: "PyTorch",     icon: "🔥" },
+          { name: "数据分析",    icon: "🔍" },
+          { name: "时间序列",    icon: "⏱️" },
+          { name: "量化金融",    icon: "💹" },
+        ],
+        skillsSecondary: [
+          { name: "Excel & VBA", icon: "📑" },
+          { name: "SQL",         icon: "🗄️" },
+          { name: "财务建模",    icon: "💰" },
+          { name: "风险管理",    icon: "⚠️" },
+          { name: "深度学习",    icon: "🧠" },
+          { name: "统计推断",    icon: "🔄" },
+          { name: "PCA降维",     icon: "📉" },
+          { name: "市场研究",    icon: "📡" },
+        ],
+        letsConnect: "联系我",
+        footerH1: "通过数据分析和建模",
+        footerH2: "发现机会，优化策略",
+        footerLine: "如果你正在寻找兼具严谨建模能力与业务表达能力的候选人，欢迎联系我。",
+        rights: "保留所有权利。",
+      },
     };
   </script>
 
   <script>
-    // ============================================
-    // VUE APP
-    // ============================================
-    const { createApp, ref, onMounted } = Vue;
+    const { createApp, ref, computed, watch, nextTick, onMounted } = Vue;
 
     createApp({
       setup() {
-        const navItems = ["About", "Experience", "Projects", "Skills", "Contact"];
+        const lang      = ref("en");
+        const menuOpen  = ref(false);
         const activeSection = ref("hero");
+        const reduceMotion  = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-        const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const t = computed(() => i18n[lang.value]);
+
+        const navItems = computed(() => [
+          { id: "about",      label: t.value.aboutTitle + " " + t.value.aboutMe },
+          { id: "experience", label: t.value.expTitle + " " + t.value.expLabel },
+          { id: "projects",   label: t.value.projTitle + " " + t.value.projLabel },
+          { id: "skills",     label: t.value.skillsTitle + " " + t.value.skillsLabel },
+          { id: "contact",    label: t.value.letsConnect },
+        ]);
+
+        const setLang = (newLang) => {
+          lang.value = newLang;
+          document.documentElement.lang = newLang === "zh" ? "zh-CN" : "en";
+        };
+
+        watch(lang, () => nextTick(() => lucide.createIcons()));
+
+        watch(menuOpen, (val) => {
+          document.body.style.overflow = val ? "hidden" : "";
+          if (val) nextTick(() => lucide.createIcons());
+        });
 
         const initHeroAnimations = () => {
           const tl = gsap.timeline({ delay: 0.4, defaults: { ease: "power4.out" } });
-          tl.fromTo(".hero-title", { opacity: 0, y: 40, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.0 })
-            .fromTo(".hero-sub", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.65 }, "-=0.55")
-            .fromTo(".hero-cta", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.7 }, "-=0.45")
-            .fromTo(".hero-scroll", { opacity: 0 }, { opacity: 1, duration: 0.6 }, "-=0.35");
+          tl.fromTo(".hero-title",  { opacity: 0, y: 40, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 1.0 })
+            .fromTo(".hero-sub",    { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.65 }, "-=0.55")
+            .fromTo(".hero-cta",    { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.70 }, "-=0.45")
+            .fromTo(".hero-scroll", { opacity: 0 },        { opacity: 1, duration: 0.60 },        "-=0.35");
         };
 
         const initScrollAnimations = () => {
-          gsap.utils.toArray(".reveal").forEach((elem) => {
-            gsap.to(elem, {
-              opacity: 1,
-              y: 0,
-              duration: 0.8,
-              ease: "power3.out",
-              scrollTrigger: {
-                trigger: elem,
-                start: "top 85%",
-                toggleActions: "play none none none",
-              },
+          gsap.utils.toArray(".reveal").forEach((el) => {
+            gsap.to(el, {
+              opacity: 1, y: 0, duration: 0.8, ease: "power3.out",
+              scrollTrigger: { trigger: el, start: "top 85%", toggleActions: "play none none none" },
             });
           });
         };
 
         const initScrollSpy = () => {
-          const ids = ["about", "experience", "projects", "skills", "contact"];
-          ids.forEach((id) => {
+          ["about","experience","projects","skills","contact"].forEach((id) => {
             ScrollTrigger.create({
-              trigger: `#${id}`,
-              start: "top 40%",
-              end: "bottom 40%",
-              onEnter: () => (activeSection.value = id),
+              trigger: `#${id}`, start: "top 40%", end: "bottom 40%",
+              onEnter:     () => (activeSection.value = id),
               onEnterBack: () => (activeSection.value = id),
             });
           });
@@ -743,7 +877,6 @@
         onMounted(() => {
           lucide.createIcons();
           gsap.registerPlugin(ScrollTrigger);
-
           if (!reduceMotion) {
             initHeroAnimations();
             initScrollAnimations();
@@ -756,7 +889,13 @@
           }
         });
 
-        return { profileData, navItems, activeSection };
+        return {
+          lang, t, menuOpen, activeSection, navItems,
+          email:   SHARED.email,
+          cvUrl:   SHARED.cvUrl,
+          socials: SHARED.socials,
+          setLang,
+        };
       },
     }).mount("#app");
   </script>
