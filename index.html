@@ -9,6 +9,7 @@
   <meta property="og:description" content="Imperial College Mathematics graduate. Quantitative analyst, data scientist, developer." />
   <meta property="og:url" content="https://aleiyqwang.github.io/my-website/" />
   <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23004165'/><text x='50' y='68' font-family='Inter,system-ui,sans-serif' font-size='48' font-weight='800' text-anchor='middle' fill='white'>YW</text></svg>">
 
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-B9C2F06NFN"></script>
@@ -181,6 +182,14 @@
 
   <div id="app" class="relative z-[2]">
 
+    <!-- Back to Top -->
+    <transition name="fade">
+      <button v-show="showBackToTop" @click="scrollToTop"
+              class="fixed bottom-8 right-8 z-50 glass hover-lift w-12 h-12 rounded-full flex items-center justify-center hover:bg-acid hover:text-white transition-all">
+        <i data-lucide="arrow-up" class="w-5 h-5"></i>
+      </button>
+    </transition>
+
     <!-- Mobile Menu -->
     <transition name="fade">
       <div v-show="menuOpen" class="mobile-menu">
@@ -218,7 +227,7 @@
         <a v-for="item in navItems" :key="item.id"
            :href="`#${item.id}`"
            class="text-sm transition-colors"
-           :class="activeSection === item.id ? 'text-text-primary' : 'text-text-secondary hover:text-text-primary'">
+           :class="activeSection === item.id ? 'text-acid font-semibold' : 'text-text-secondary hover:text-text-primary'">
           {{ item.label }}
         </a>
       </div>
@@ -396,19 +405,17 @@
           <div class="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-border md:-translate-x-1/2"></div>
 
           <div v-for="(exp, index) in t.experience" :key="index"
-               class="timeline-item relative pl-8 md:pl-0 md:grid md:grid-cols-2 md:gap-16 mb-16 reveal"
-               :class="{ 'md:text-right': index % 2 === 0 }">
+               class="timeline-item relative pl-8 md:pl-0 md:grid md:grid-cols-2 md:gap-16 mb-16 reveal">
             <div class="absolute left-0 md:left-1/2 top-4 w-3 h-3 bg-acid rounded-full md:-translate-x-1/2 glow"></div>
 
-            <div :class="{ 'md:order-2': index % 2 === 1, 'md:order-1 md:text-right': index % 2 === 0 }">
+            <div :class="{ 'md:order-2': index % 2 === 1, 'md:order-1': index % 2 === 0 }">
               <div class="glass card-3d hover-lift p-8">
                 <span class="text-acid text-sm font-medium">{{ exp.period }}</span>
                 <h3 class="text-2xl font-bold mt-2 mb-1">{{ exp.role }}</h3>
                 <p class="text-text-secondary mb-5">{{ exp.company }}</p>
                 <ul class="space-y-3">
                   <li v-for="(desc, di) in exp.descriptions" :key="di"
-                      class="text-text-secondary text-sm flex gap-2"
-                      :class="{ 'md:flex-row-reverse': index % 2 === 0 }">
+                      class="text-text-secondary text-sm flex gap-2 items-start">
                     <span class="text-acid flex-shrink-0">→</span><span>{{ desc }}</span>
                   </li>
                 </ul>
@@ -432,7 +439,7 @@
                class="glass-strong card-3d hover-lift p-8 reveal group">
             <div class="flex items-start justify-between mb-6">
               <div class="w-14 h-14 rounded-2xl bg-acid/10 flex items-center justify-center group-hover:bg-acid/15 transition-colors">
-                <i data-lucide="folder" class="w-7 h-7 text-acid"></i>
+                <i :data-lucide="project.icon" class="w-7 h-7 text-acid"></i>
               </div>
               <div class="flex items-center gap-2">
                 <span class="text-text-secondary text-sm">{{ project.period }}</span>
@@ -501,19 +508,29 @@
       </div>
       <div class="relative z-10 text-center max-w-4xl mx-auto">
         <p class="text-acid text-sm tracking-[0.3em] uppercase mb-6 reveal">{{ t.letsConnect }}</p>
-        <h2 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 reveal">
+        <h2 class="text-4xl md:text-5xl font-bold mb-8 reveal">
           {{ t.footerH1 }}<br><span class="text-gradient">{{ t.footerH2 }}</span>
         </h2>
-        <p class="text-xl text-text-secondary mb-12 reveal">{{ t.footerLine }}</p>
         <a :href="`mailto:${email}`"
            class="inline-block text-2xl md:text-4xl font-semibold hover:text-acid transition-colors mb-16 reveal">
           {{ email }}
         </a>
         <div class="flex justify-center gap-6 reveal">
-          <a v-for="social in socials" :key="social.name"
-             :href="social.url" target="_blank"
+          <a href="https://www.linkedin.com/in/yuqing-wang-64396a20a/" target="_blank"
              class="glass hover-lift w-14 h-14 rounded-full flex items-center justify-center hover:bg-acid hover:text-white transition-all">
-            <i :data-lucide="social.icon" class="w-6 h-6"></i>
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.605 0 4.276 2.368 4.276 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+          <a href="https://github.com/Aleiyqwang" target="_blank"
+             class="glass hover-lift w-14 h-14 rounded-full flex items-center justify-center hover:bg-acid hover:text-white transition-all">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+          <a :href="`mailto:${email}`"
+             class="glass hover-lift w-14 h-14 rounded-full flex items-center justify-center hover:bg-acid hover:text-white transition-all">
+            <i data-lucide="mail" class="w-6 h-6"></i>
           </a>
         </div>
       </div>
@@ -530,7 +547,7 @@
       cvUrl: "./Yuqing_Wang_CV.pdf",
       socials: [
         { name: "LinkedIn", icon: "linkedin", url: "https://www.linkedin.com/in/yuqing-wang-64396a20a/" },
-        { name: "GitHub",   icon: "github",   url: "https://github.com/yuqingwang" },
+        { name: "GitHub",   icon: "github",   url: "https://github.com/Aleiyqwang" },
         { name: "Email",    icon: "mail",      url: "mailto:yuqing.1.wang@gmail.com" },
       ],
     };
@@ -607,6 +624,7 @@
             description: "Applied extreme value theory and parametric bootstrap methods in Python to model and forecast tail events in UK wind and solar production across regions and seasons. Produced quantitative risk metrics relevant to power market stress-testing and grid reliability analysis.",
             technologies: ["Python", "Extreme Value Theory", "Time Series", "Bootstrap", "scipy / statsmodels"],
             link: null,
+            icon: "trending-up",
           },
           {
             title: "Machine Learning Project",
@@ -615,6 +633,7 @@
             description: "Implemented a six-layer CNN in PyTorch from scratch for Linnaeus-5 image classification. Designed iterative adversarial attack experiments to quantify model robustness under perturbation, and applied statistical learning theory to justify architectural and regularisation choices.",
             technologies: ["PyTorch", "CNN", "Adversarial ML", "Computer Vision", "Python"],
             link: null,
+            icon: "brain",
           },
           {
             title: "Data Science Project",
@@ -623,22 +642,25 @@
             description: "Implemented Decision Trees, Random Forests, and Gradient Boosted Trees from scratch and benchmarked performance on high-dimensional medical data. Applied PCA for dimensionality reduction and compared L1/L2-penalised logistic regression models, evaluating generalisation and interpretability trade-offs.",
             technologies: ["Python", "PCA", "Ensemble Methods", "Penalised Regression", "scikit-learn"],
             link: null,
+            icon: "bar-chart-2",
           },
           {
-            title: "Research Project",
-            subtitle: "Infectious Disease Transmission Modelling",
-            period: "May 2023 – Jun 2023",
-            description: "Modelled Ebola and Malaria transmission dynamics using Hawkes point processes in R and Python. Applied Thinning and Branching algorithms for parameter estimation and outbreak simulation, producing forecasts of transmission intensity and extinction probabilities.",
-            technologies: ["R", "Python", "Hawkes Processes", "Stochastic Modelling", "Epidemiology"],
+            title: "LLM Market Briefing Pipeline",
+            subtitle: "Automated Daily Financial Intelligence",
+            period: "Mar 2026",
+            description: "Built an end-to-end Python pipeline that fetches daily financial headlines, processes them through an LLM to generate structured market briefings, and delivers output via automated email. Demonstrates applied LLM integration, financial data wrangling, and production automation.",
+            technologies: ["Python", "LLM APIs", "Financial Data", "Automation", "SMTP"],
             link: null,
+            icon: "zap",
           },
           {
-            title: "Portfolio Website",
-            subtitle: "Bilingual CV Site",
-            period: "2025",
-            description: "Designed and built this bilingual portfolio website from scratch. Features glassmorphism design, GSAP scroll animations, Vue 3 reactivity, responsive layout, and EN/ZH language switching.",
-            technologies: ["Vue 3", "GSAP", "Tailwind CSS", "JavaScript"],
-            link: "https://aleiyqwang.github.io/my-website/",
+            title: "Equity Drawdown Risk Dashboard",
+            subtitle: "ML-Powered Downside Risk Scoring for US Equities",
+            period: "Apr 2026",
+            description: "Built a live ML dashboard that scores near-term drawdown risk for any US-listed stock. A Gradient Boosting model trained on 50 S&P 500 stocks (2005–2019) predicts the probability of a >10% price drop within 20 trading days, with GPT-4o-mini generating analyst-style risk commentary.",
+            technologies: ["Python", "scikit-learn", "Streamlit", "Plotly", "yfinance", "GPT-4o-mini"],
+            link: "https://equity-risk-dashboard.streamlit.app",
+            icon: "trending-down",
           },
         ],
         skillsTitle: "Technical", skillsLabel: "Skills",
@@ -695,7 +717,7 @@
         scholarship: { title: "院长奖学金", sub: "President's Undergraduate Scholarship" },
         languagesTitle: "语言",
         languageItems: [
-          { name: "英语",  level: "流利" },
+          { name: "英语",  level: "母语" },
           { name: "普通话",level: "母语" },
         ],
         expTitle: "专业", expLabel: "履历",
@@ -740,6 +762,7 @@
             description: "基于英国风电与光伏发电数据，构建统计模型刻画产量极端波动特性。采用 Bootstrap 重抽样方法评估模型稳健性，为电力市场风险管理提供量化支持。",
             technologies: ["Python", "统计建模", "时间序列分析", "Bootstrap", "风险量化"],
             link: null,
+            icon: "trending-up",
           },
           {
             title: "机器学习研究",
@@ -748,6 +771,7 @@
             description: "使用 PyTorch 从零实现六层 CNN 完成 Linnaeus-5 图像分类任务。通过对抗样本攻击测试模型稳定性，系统分析训练过程中的泛化性能与误差来源。",
             technologies: ["PyTorch", "CNN", "对抗性机器学习", "模型评估", "计算机视觉"],
             link: null,
+            icon: "brain",
           },
           {
             title: "高维数据分析",
@@ -756,22 +780,25 @@
             description: "实现决策树、随机森林与梯度提升树等多种算法，对比 PCA 降维与正则化方法在高维医疗数据上的表现，重点关注模型稳定性与可解释性。",
             technologies: ["Python", "PCA", "集成学习", "正则化", "特征工程"],
             link: null,
+            icon: "bar-chart-2",
           },
           {
-            title: "流行病传播建模",
-            subtitle: "基于 Hawkes 过程的传染病动力学研究",
-            period: "2023年5月 – 2023年6月",
-            description: "应用 Hawkes 点过程对埃博拉与疟疾的传播事件进行建模，结合 Thinning 与 Branching 算法进行模拟与参数估计，输出传染强度变化趋势与预测区间。",
-            technologies: ["R", "Python", "Hawkes过程", "统计模拟", "流行病学建模"],
+            title: "LLM市场简报系统",
+            subtitle: "自动化金融情报生成管道",
+            period: "2026年3月",
+            description: "构建端到端 Python 自动化系统，每日抓取金融市场新闻，通过大语言模型生成结构化市场简报，并自动发送邮件。涵盖 LLM 接口调用、金融数据处理与自动化运维全流程。",
+            technologies: ["Python", "LLM API", "金融数据", "自动化", "邮件推送"],
             link: null,
+            icon: "zap",
           },
           {
-            title: "个人作品集网站",
-            subtitle: "中英双语简历网站 — Vue · GSAP · Tailwind",
-            period: "2025年",
-            description: "从零设计并构建这个中英双语个人作品集网站，集成玻璃拟态设计、GSAP 滚动动画、响应式布局与 Vue 3 响应式系统，支持中英语言切换。",
-            technologies: ["Vue 3", "GSAP", "Tailwind CSS", "JavaScript"],
-            link: "https://aleiyqwang.github.io/my-website/",
+            title: "股票回撤风险评分仪表盘",
+            subtitle: "基于机器学习的美股下行风险评分系统",
+            period: "2026年4月",
+            description: "构建实时 ML 仪表盘，对任意美股进行近期回撤风险评分。梯度提升模型基于50只标普500成分股（2005–2019年）训练，预测20个交易日内股价下跌超10%的概率，并通过大数据模型生成专业分析师风格的风险评述。",
+            technologies: ["Python", "scikit-learn", "Streamlit", "Plotly", "yfinance", "LLM"],
+            link: "https://equity-risk-dashboard.streamlit.app",
+            icon: "trending-down",
           },
         ],
         skillsTitle: "核心", skillsLabel: "技能",
@@ -796,8 +823,8 @@
           { name: "市场研究",    icon: "📡" },
         ],
         letsConnect: "联系我",
-        footerH1: "通过数据分析和建模",
-        footerH2: "发现机会，优化策略",
+        footerH1: "让我们",
+        footerH2: "建立联系",
         footerLine: "如果你正在寻找兼具严谨建模能力与业务表达能力的候选人，欢迎联系我。",
         rights: "保留所有权利。",
       },
@@ -811,7 +838,14 @@
       setup() {
         const lang      = ref("en");
         const menuOpen  = ref(false);
-        const activeSection = ref("hero");
+        const activeSection  = ref("hero");
+        const showBackToTop  = ref(false);
+
+        const scrollToTop = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+        window.addEventListener("scroll", () => {
+          showBackToTop.value = window.scrollY > 400;
+        });
         const reduceMotion  = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
         const t = computed(() => i18n[lang.value]);
@@ -883,7 +917,7 @@
           email:   SHARED.email,
           cvUrl:   SHARED.cvUrl,
           socials: SHARED.socials,
-          setLang,
+          setLang, showBackToTop, scrollToTop,
         };
       },
     }).mount("#app");
